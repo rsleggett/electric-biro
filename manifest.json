@@ -1,0 +1,7 @@
+{
+  "name": "electric-biro",
+  "short_name": "electric-biro",
+  "description": "Electric Biro Website v4",
+  "start_url": "/",
+  "display": "standalone"
+}
