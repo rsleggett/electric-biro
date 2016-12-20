@@ -1,11 +1,15 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/electric-biro.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/electric-biro-view-home.html",
+    "src/electric-biro-view-code.html",
+    "src/electric-biro-view-contact.html",
+    "src/electric-biro-view-404.html",
+    "src/electric-biro-icons.html",
+    "src/shared-styles.html",
+    "src/components/electric-biro-canvas.html",
+    "src/components/electric-biro-draw.html"
   ],
   "sourceGlobs": [
     "src/**/*",
