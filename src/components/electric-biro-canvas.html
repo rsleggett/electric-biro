@@ -8,21 +8,47 @@
         <style>
         
         </style>
-
-        <canvas id="drawing" width="100%" height="100%" background="red"></canvas>
+        <h1>{{message}}</h1>
+        <canvas id="drawing" width="100%" height="100%" background="red">
+            {{fallBackContent}}
+        </canvas>
     </template>
 
     <script>
         Polymer({
             is: "electric-biro-canvas",
+            properties: {
+                fallBackContent: String
+            },
             ready: function(e) {
-                this.$.drawing.
+                var ctx = this.$.drawing.getContext("2d");
+                ctx.fillStyle = "rgb(200,0,0)";
+                ctx.fillRect(10,10,50,50);
+                ctx.fillStyle = "rgba(0,0,200,0.5)";
+                ctx.fillRect(30, 30, 50, 50);
+                fallBackContent = "<h1>Hello from Electric Biro</h1>";
+                message = "Hello";
             },
             listeners: {
                 "drawing.track":"handleTrack"
             },
             handleTrack: function(e) {
-                
+                switch(e.detail.state)
+                {
+                    case 'start':
+                        this.message = "Tracking Started";
+                        this.lastWidth = 0;
+                        this.lastHeight = 0;
+                        break;
+                    case 'track':
+                        this.message = "Tracking in progress: x = " + e.detail.x + ", y = " + e.detail.y + "";
+                        this.lastWidth = e.detail.dx;
+                        this.lastHeight = e.detail.dy;
+                        break;
+                    case 'end':
+                        this.message = "Tracking finished";
+                        break;
+                }
             }
         });
     </script>

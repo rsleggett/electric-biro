@@ -21,6 +21,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="electric-biro-icons.html">
+<link rel="import" href="electric-biro-view-home.html">
+<link rel="import" href="electric-biro-view-blog.html">
+<link rel="import" href="electric-biro-view-code.html">
+<link rel="import" href="electric-biro-view-contact.html">
+<link rel="import" href="electric-biro-view-404.html">
 
 <dom-module id="electric-biro">
   <template>
@@ -113,6 +118,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true,
           observer: '_pageChanged',
         },
+        routeData: String,
+        subroute: String,
       },
 
       observers: [
