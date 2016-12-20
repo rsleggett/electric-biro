@@ -9,12 +9,21 @@
         
         </style>
 
-        <canvas width="100%" height="100%" background="red"></canvas>
+        <canvas id="drawing" width="100%" height="100%" background="red"></canvas>
     </template>
 
     <script>
         Polymer({
-            is: "electric-biro-canvas"
+            is: "electric-biro-canvas",
+            ready: function(e) {
+                this.$.drawing.
+            },
+            listeners: {
+                "drawing.track":"handleTrack"
+            },
+            handleTrack: function(e) {
+                
+            }
         });
     </script>
 </dom-module>
