@@ -1,0 +1,92 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/google-youtube/google-youtube.html">
+
+<dom-module id="electric-biro-draw">
+    <template>
+        <style>
+            :host {
+                
+            }
+
+            #surface {
+                width: 500px;
+                height: 500px;
+            }
+
+            #surfaceInner {
+                position: relative;
+                width:0;
+                height:0;
+            }
+        </style>
+        <h2>{{message}}</h2>
+        <div id="surface" on-track="trackSurface">
+        </div>
+        <div id="surfaceInner">
+            <!--<iron-ajax
+                id="youtubeAjax"
+                url="https://www.googleapis.com/youtube/v3/search"
+                params='{"part":"snippet", "q":"polymer", "key": "AIzaSyBcPdba7tzDkjDHyH8r89lNV-Fl0ClJ3rk", "type": "video"}'
+                handle-as="json"
+                on-response="handleResponse"
+                debounce-duration="300"></iron-ajax>
+            <google-youtube 
+                id="youtubePlayer"
+                video-id="{{videoId}}"
+                height="{{lastHeight}}"
+                width="{{lastWidth}}"
+                chromeless
+                fluid
+            />-->
+            <img src="/images/manifest/ms-icon-310x310.png" style="max-width:100%"/>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'electric-biro-draw',
+            ready: function(){
+                this.message = 'Waiting'
+            },
+            properties : {
+                lastWidth : Number,
+                lastHeight : Number,
+                message : String,
+                videoId : String
+            },
+            handleResponse: function(data){
+                console.log(data.detail.response);
+                this.videoId = data.detail.response.items[0].id.videoId;
+                this.$.youtubePlayer.play();
+            },
+            trackSurface: function(e){
+                var element = this.$.surfaceInner;
+                switch(e.detail.state)
+                {
+                    case 'start':
+                        this.message = "Tracking Started";
+                        element.style.position = "absolute";
+                        element.style.left = e.detail.x + "px";
+                        element.style.top = e.detail.y + "px";
+                        this.lastWidth = 0;
+                        this.lastHeight = 0;
+                        break;
+                    case 'track':
+                        this.message = "Tracking in progress: x = " + e.detail.x + ", y = " + e.detail.y + "";
+                        
+                        element.style.width = ((this.lastWidth + e.detail.dx) / 2) + "px";
+                        element.style.height = ((this.lastHeight + e.detail.dy) / 2) + "px";
+                        this.lastWidth = e.detail.dx;
+                        this.lastHeight = e.detail.dy;
+                        break;
+                    case 'end':
+                        this.message = "Tracking finished";
+                        //this.$.youtubeAjax.generateRequest();
+                        break;
+                }
+            }
+        });
+    </script>
+</dom-module>
