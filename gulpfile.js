@@ -13,8 +13,6 @@ gulp.task('deploy', function() {
         password: args.ftppassword,
         log: gutil.log
     });
-    console.log(conn);
-    console.log(gulp.src('./build/bundled/**'));
     gulp.src('./build/bundled/**')
         .pipe(conn.newer(remotePath))
         .pipe(conn.dest(remotePath));
