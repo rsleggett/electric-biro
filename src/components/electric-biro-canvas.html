@@ -18,7 +18,8 @@
         Polymer({
             is: "electric-biro-canvas",
             properties: {
-                fallBackContent: String
+                fallBackContent: String,
+                message: String
             },
             ready: function(e) {
                 var ctx = this.$.drawing.getContext("2d");
