@@ -37,9 +37,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           home = fixture('basic');
         });
 
-        test('Home should contain a canvas', function() {
-          var circle = Polymer.dom(home.root).querySelector('canvas');
-          assert.equal(canvas.id, 'drawing');
+        test('Home should contain electric-biro-canvas', function() {
+          var canvas = Polymer.dom(home.root).querySelector('electric-biro-canvas');
+          assert.notEqual(canvas, null);
         });
       });
     </script>
