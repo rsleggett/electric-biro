@@ -17,3 +17,5 @@ before_script:
   - bower install
 script:
   - xvfb-run npm test
+after_success:
+  gulp deploy --ftpuser $FTPUSER --ftppassword $FTPPASSWORD --ftphost $FTPHOST --ftpfolder $FTPFOLDER
