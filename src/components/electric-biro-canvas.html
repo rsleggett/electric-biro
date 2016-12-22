@@ -6,10 +6,8 @@
 <dom-module id="electric-biro-canvas">
     <template>
         <style>
-        
         </style>
-        <h1>{{message}}</h1>
-        <canvas id="drawing" width="100%" height="100%" background="red">
+        <canvas id="drawing" width="1024" height="768">
             {{fallBackContent}}
         </canvas>
     </template>
@@ -22,36 +20,92 @@
                 message: String
             },
             ready: function(e) {
-                var ctx = this.$.drawing.getContext("2d");
-                ctx.fillStyle = "rgb(200, 0, 0)";
-                ctx.fillRect(10, 10, 50, 50);
-                ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-                ctx.fillRect(30, 30, 50, 50);
-                ctx.fillStyle = "rgb(0, 200, 0, 0.5)";
-                ctx.fillRect(50, 50, 50, 50);
                 fallBackContent = "<h1>Hello from Electric Biro</h1>";
                 message = "Hello";
             },
             listeners: {
-                "drawing.track":"handleTrack"
+                "drawing.track":"handleTrack",
+                "drawing.tap":"handleTap"
             },
             handleTrack: function(e) {
                 switch(e.detail.state)
                 {
                     case 'start':
-                        this.message = "Tracking Started";
+                        console.log("Tracking Started");
                         this.lastWidth = 0;
                         this.lastHeight = 0;
                         break;
                     case 'track':
-                        this.message = "Tracking in progress: x = " + e.detail.x + ", y = " + e.detail.y + "";
-                        this.lastWidth = e.detail.dx;
-                        this.lastHeight = e.detail.dy;
+                        console.log("Tracking in progress: x = " + e.detail.x + ", y = " + e.detail.y + "");
+                         this.drawSmileyFace(this.$.drawing, e.detail.x + 50, e.detail.y + 50);
                         break;
                     case 'end':
-                        this.message = "Tracking finished";
+                        console.log("Tracking finished");
                         break;
                 }
+            },
+            handleTap: function(e){
+                console.log("Handle tap");
+                this.drawSmileyFace(this.$.drawing, e.detail.x, e.detail.y);
+            },
+            drawSmileyFace: function(canvas, startX, startY){
+                var ctx = canvas.getContext("2d");
+                ctx.beginPath();
+                
+                //Outer circle
+                ctx.fillStyle = "yellow";
+                ctx.arc(startX, startY, 50, 0, Math.PI*2, true);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(startX, startY, 50, 0, Math.PI*2, true);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.fillStyle = "black";
+                // Mouth (clockwise)
+                ctx.moveTo(startX + 35, startY);
+                ctx.arc(startX, startY, 35, 0, Math.PI, false);
+                // Left eye
+                ctx.moveTo(startX - 10, startY - 10);
+                ctx.arc(startX - 15, startY - 10, 5, 0, Math.PI*2, true);
+                //Right eye
+                ctx.moveTo(startX + 25, startY - 10);
+                ctx.arc(startX + 20, startY - 10, 5, 0, Math.PI*2, true);
+                ctx.fill();
+            },
+            drawTrianglesFilledNonFilled(canvas, startX, startY) {
+                var ctx = canvas.getContext("2d");
+                // Filled Triangle
+                ctx.beginPath();
+                ctx.moveTo(325, 25);
+                ctx.lineTo(405, 25);
+                ctx.lineTo(325, 105);
+                ctx.fill();
+
+                // Stroked Triangle
+                ctx.beginPath();
+                ctx.moveTo(425, 125);
+                ctx.lineTo(425, 45);
+                ctx.lineTo(345, 125);
+                ctx.closePath();
+                ctx.stroke();
+            },
+            drawColouredSquares : function(canvas, startX, startY) {
+                var ctx = this.$.drawing.getContext("2d");
+                ctx.fillStyle = "rgb(200, 0, 0)";
+                ctx.fillRect(10, 10, 50, 50);
+
+                ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+                ctx.fillRect(30, 30, 50, 50);
+
+                ctx.fillStyle = "rgb(0, 200, 0, 0.5)";
+                ctx.fillRect(50, 50, 50, 50);
+                
+                ctx.fillStyle = "rgb(0, 0, 0)";
+                ctx.fillRect(105, 105, 100, 100);
+                ctx.clearRect(125, 125, 60, 60);
+                ctx.strokeRect(130, 130, 50, 50);
             }
         });
     </script>
